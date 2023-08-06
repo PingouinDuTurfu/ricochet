@@ -9,5 +9,4 @@ public class RicochetApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(RicochetApplication.class, args);
 	}
-
 }

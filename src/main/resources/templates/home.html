@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Ricochet Robots</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script th:src="@{/libs/lz-string.min.js}"></script>
+
+<!--    <link rel="stylesheet" href="../static/css/index.css">-->
+<!--    <script src="../static/js/Game.js" defer></script>-->
+
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="icon" type="image/png" th:href="@{/asset/favicon.jpg}" />
+    <script th:src="@{/js/Game.js}" defer></script>
+</head>
+<body>
+    <div class="left-panel">
+        <div id="switch-container">
+            <div id="switch-title">Edit</div>
+            <div id="switch-mode">
+<!--                <img id="switch-mode-img" src="../static/asset/switch.png" alt="edit">-->
+                <img id="switch-mode-img" th:src="@{/asset/switch.png}" alt="edit">
+            </div>
+        </div>
+
+        <div id="left-panel-container">
+
+            <div id="edit-container">
+                <div id="edit-content">
+                    <div class="edit-row">
+                        <label id="label-edit-name" for="edit-name">Name</label>
+                        <input type="text" name="title" id="edit-name">
+                    </div>
+                    <div class="edit-row">
+                        <div id="save-edit" class="edit-button">Save</div>
+                        <div id="load-edit" class="edit-button">Load</div>
+                    </div>
+                </div>
+
+                <div id="swap-cell-container"></div>
+
+                <div id="robot-pieces-container"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="main">
+        <div id="game">
+            <div id="grid"></div>
+            <div id="walls"></div>
+<!--            <div id="robots"></div>-->
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,159 @@
+@import "var.css";
+@import "left-panel.css";
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--dark-gray);
+    height: 100%;
+    width: 75%;
+    overflow: hidden;
+    padding: 0 20px;
+}
+
+#game {
+    position: relative;
+    display: flex;
+    width: 100%;
+    max-height: calc(var(--grid-height) + 2 * var(--grid-cell-gap));
+    max-width: calc(var(--grid-width) + 2 * var(--grid-cell-gap));
+    overflow: auto;
+    padding: var(--grid-cell-gap-size);
+    aspect-ratio: 1;
+}
+
+#grid {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+
+    height: var(--grid-height);
+    width: var(--grid-width);
+
+    margin: var(--grid-cell-gap);
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+/* ======> CELLS <====== */
+
+#grid .cell {
+    position: relative;
+    height: var(--grid-cell-size);
+    width: var(--grid-cell-size);
+    margin: var(--grid-cell-gap);
+
+    background-size: contain;
+}
+
+#grid.edit .cell:hover:before {
+    content: "";
+    position: absolute;
+    top: calc((var(--grid-cell-size) - 2 * var(--grid-cell-gap)) * 0.15);
+    left: calc((var(--grid-cell-size) - 2 * var(--grid-cell-gap)) * 0.15);
+    height: calc(var(--grid-cell-size) * 0.7);
+    width: calc(var(--grid-cell-size) * 0.7);
+    /*width: calc(var(--grid-cell-size) - 30% - 2 * var(--grid-cell-gap));*/
+    background-color: var(--light-blue);
+    border-radius: 10px;
+    opacity: 0.7;
+    z-index: 1;
+}
+
+#grid.edit .cell.selected:after {
+    content: "";
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    height: calc(var(--grid-cell-size) - 30% - 2 * var(--grid-cell-gap));
+    width: calc(var(--grid-cell-size) - 30% - 2 * var(--grid-cell-gap));
+    background-color: var(--green);
+    border-radius: 10px;
+    opacity: 0.7;
+    z-index: 1;
+}
+
+#grid .cell .robot-piece {
+    position: absolute;
+    top: calc((var(--grid-cell-size) - var(--grid-cell-gap)) / 2 - var(--robot-piece-size) / 2);
+    left: calc((var(--grid-cell-size) - var(--grid-cell-gap)) / 2 - var(--robot-piece-size) / 2);
+    width: var(--robot-piece-size);
+    opacity: 0.7;
+    z-index: 4;
+}
+
+#grid .cell .robot-piece:hover {
+    cursor: grab;
+}
+
+/* ======> WALLS <====== */
+
+#walls {
+    position: absolute;
+    pointer-events: none;
+}
+
+#walls .wall {
+    position: absolute;
+    background-color: var(--black);
+    pointer-events: auto;
+}
+
+#walls .wall.horizontal {
+    height: calc(var(--grid-cell-gap));
+    width: calc(var(--grid-cell-size) + 4 * var(--grid-cell-gap));
+}
+
+#walls .wall.horizontal:before {
+    content: "";
+    position: absolute;
+    top: calc(var(--grid-cell-gap-size) / -2);
+    left: 0;
+    height: var(--grid-cell-gap-size);
+    width: 100%;
+}
+
+#walls .wall.vertical {
+    height: calc(var(--grid-cell-size) + 4 * var(--grid-cell-gap));
+    width: calc(var(--grid-cell-gap));
+}
+
+#walls .wall.vertical:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: calc(var(--grid-cell-gap-size) / -2);
+    height: 100%;
+    width: var(--grid-cell-gap-size);
+}
+
+#walls.edit .wall:hover:before {
+    background-color: var(--light-blue);
+    border-radius: 10px;
+    z-index: 3;
+    opacity: 0.8;
+}
+
+#walls.edit .wall:hover.solid:before {
+    background-color: var(--green);
+    background-blend-mode: hard-light;
+    opacity: 1;
+}
+
+#walls .wall.solid:before {
+    z-index: 1;
+    background-size: contain;
+}
+
+#walls .wall.vertical.solid:before {
+    background-image: url("../asset/vWall.png");
+}
+
+#walls .wall.horizontal.solid:before {
+    background-image: url("../asset/hWall.png");
+}
