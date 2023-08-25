@@ -9,11 +9,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "Maps")
-public class Map {
+public class MapPersistence {
     @Id
     private String name;
 
     @NonNull
-    @Column(columnDefinition = "JSON")
+    @Column(length = 5000)
     private String data;
 }
