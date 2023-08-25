@@ -14,13 +14,6 @@
     --pink: #8f5da3;
     --light-pink: #FFE6E6;
 
-    --filter-red: #3e0707;
-    --filter-green: #073e0c;
-    --filter-orange: #5d4b21;
-    --filter-out-light-color: #f1c8c861;
-    --filter-inside-light-color: #ffffff7d;
-    --default-black: black;
-
     --delay-short-animation : 0.5s;
     --delay-medium-animation : 1s;
 
@@ -40,14 +33,6 @@
     height: 0;
 }
 
-::-webkit-scrollbar-thumb {
-    background: var(--gray);
-}
-
-::-webkit-scrollbar-track {
-    background: var(--dark-gray);
-}
-
 body {
     display: flex;
     flex-direction: row;
@@ -62,4 +47,8 @@ body {
 
 ul, li, a, a:hover, input, button {
     all: initial;
+}
+
+.hidden {
+    display: none;
 }

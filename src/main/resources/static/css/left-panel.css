@@ -94,20 +94,6 @@
     margin: 10px 0;
 }
 
-#label-edit-name {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 30%;
-    color: var(--white);
-    font-size: 30px;
-    margin: 0 2%;
-}
-
-#label-edit-name:hover {
-    cursor: text;
-}
-
 #edit-name {
     display: flex;
     background-color: var(--dark-gray);
@@ -138,11 +124,82 @@
     width: inherit;
     margin: 0 2%;
     transition: box-shadow var(--delay-short-animation), background-color var(--delay-short-animation);
+    cursor: pointer;
 }
 
-#edit-content .edit-button:hover {
-    cursor: pointer;
+#edit-content .edit-button.save-edit:hover {
     background: var(--green);
+    box-shadow: 0 0 20px 0 var(--green);
+}
+
+#edit-content .edit-button.load-edit:has(.hidden):hover {
+    background: var(--green);
+    box-shadow: 0 0 20px 0 var(--green);
+}
+
+#edit-content #save-edit {
+    width: 30%;
+}
+
+#edit-content #load-edit-container {
+    position: relative;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#edit-content #load-edit-text {
+     width: 100%;
+     text-align: center;
+}
+
+#edit-content #load-edit-arrow {
+    width: 30px;
+    margin-right: 10px;
+    transition: transform var(--delay-short-animation);
+}
+
+#edit-content #load-edit-arrow.rotate {
+    transform: rotate(180deg);
+}
+
+#edit-content #load-edit-items-container {
+    position: absolute;
+    top: 54px;
+    left: 0;
+    width: 100%;
+    background-color: var(--black);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border: var(--light-blue) 3px solid;
+    box-sizing: border-box;
+    cursor: auto;
+    z-index: 5;
+}
+
+#edit-content .edit-button.load-edit:not(:has(.hidden)) {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+#edit-content #load-edit-items-container .load-edit-item {
+    text-align: center;
+    background-color: #00000047;
+    padding: 2px;
+    margin: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#edit-content #load-edit-items-container .load-edit-item:first-child {
+    margin-top: 10px;
+}
+
+#edit-content #load-edit-items-container .load-edit-item:last-child {
+    margin-bottom: 10px;
+}
+
+#edit-content #load-edit-items-container .load-edit-item:hover {
+    background-color: var(--green);
     box-shadow: 0 0 20px 0 var(--green);
 }
 

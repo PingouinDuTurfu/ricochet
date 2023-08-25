@@ -58,8 +58,20 @@
     left: calc((var(--grid-cell-size) - 2 * var(--grid-cell-gap)) * 0.15);
     height: calc(var(--grid-cell-size) * 0.7);
     width: calc(var(--grid-cell-size) * 0.7);
-    /*width: calc(var(--grid-cell-size) - 30% - 2 * var(--grid-cell-gap));*/
     background-color: var(--light-blue);
+    border-radius: 10px;
+    opacity: 0.7;
+    z-index: 1;
+}
+
+#grid.edit .cell.dragover:before {
+    content: "";
+    position: absolute;
+    top: calc((var(--grid-cell-size) - 2 * var(--grid-cell-gap)) * 0.08);
+    left: calc((var(--grid-cell-size) - 2 * var(--grid-cell-gap)) * 0.08);
+    height: calc(var(--grid-cell-size) * 0.84);
+    width: calc(var(--grid-cell-size) * 0.84);
+    background-color: var(--red);
     border-radius: 10px;
     opacity: 0.7;
     z-index: 1;
@@ -83,7 +95,7 @@
     top: calc((var(--grid-cell-size) - var(--grid-cell-gap)) / 2 - var(--robot-piece-size) / 2);
     left: calc((var(--grid-cell-size) - var(--grid-cell-gap)) / 2 - var(--robot-piece-size) / 2);
     width: var(--robot-piece-size);
-    opacity: 0.7;
+    opacity: 0.85;
     z-index: 4;
 }
 

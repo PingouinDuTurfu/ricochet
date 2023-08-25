@@ -4,14 +4,18 @@
     <title>Ricochet Robots</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script th:src="@{/libs/lz-string.min.js}"></script>
 
-<!--    <link rel="stylesheet" href="../static/css/index.css">-->
-<!--    <script src="../static/js/Game.js" defer></script>-->
+    <script th:src="@{/libs/lz-string.min.js}"></script>
 
     <link rel="stylesheet" th:href="@{/css/index.css}">
     <link rel="icon" type="image/png" th:href="@{/asset/favicon.jpg}" />
-    <script th:src="@{/js/Game.js}" defer></script>
+    <script type="module" th:src="@{/js/Index.js}" defer></script>
+
+<!--    <script src="../static/libs/lz-string.min.js"></script>-->
+
+<!--    <link rel="stylesheet" href="../static/css/index.css">-->
+<!--    <link rel="icon" type="image/png" href="../static/asset/favicon.jpg" />-->
+<!--    <script src="../static/js/Index.js" defer></script>-->
 </head>
 <body>
     <div class="left-panel">
@@ -28,12 +32,20 @@
             <div id="edit-container">
                 <div id="edit-content">
                     <div class="edit-row">
-                        <label id="label-edit-name" for="edit-name">Name</label>
-                        <input type="text" name="title" id="edit-name">
+                        <input type="text" name="title" id="edit-name" placeholder="Name">
+                        <div id="save-edit" class="edit-button save-edit">Save</div>
                     </div>
                     <div class="edit-row">
-                        <div id="save-edit" class="edit-button">Save</div>
-                        <div id="load-edit" class="edit-button">Load</div>
+                        <div id="load-edit-container" class="edit-button load-edit">
+                            <div id="load-edit-text">Load</div>
+                            <img id="load-edit-arrow" th:src="@{/asset/bottom-arrow.svg}" alt="bottom-arrow">
+                            <div id="load-edit-items-container" class="hidden">
+                                <div class="load-edit-item">Test</div>
+                                <div class="load-edit-item">Test</div>
+                                <div class="load-edit-item">Test</div>
+                                <div class="load-edit-item">Test</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -49,7 +61,6 @@
         <div id="game">
             <div id="grid"></div>
             <div id="walls"></div>
-<!--            <div id="robots"></div>-->
         </div>
     </div>
 
