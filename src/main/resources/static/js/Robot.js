@@ -31,6 +31,6 @@ export class Robot {
     }
 
     serialize() {
-        return {x: this.x, y: this.y, color: this.color};
+        return {x: this.x, y: this.y, c: this.color};
     }
 }

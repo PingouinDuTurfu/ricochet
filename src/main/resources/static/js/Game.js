@@ -27,9 +27,9 @@ export class Game {
         for (let i = 0; i < this.height + 1; i++) {
             for (let j = 0; j < this.width + 1; j++) {
                 this.grid[i][j] = {
-                    c: i < this.height && j < this.width ? new Cell(i, j, this) : null,
-                    h: j < this.width ? new Wall(i, j, WALL_DIRECTION.HORIZONTAL, this) : null,
-                    v: i < this.height ? new Wall(i, j, WALL_DIRECTION.VERTICAL, this) : null
+                    c: i < this.height && j < this.width ? new Cell(i, j, this) : undefined,
+                    h: j < this.width ? new Wall(i, j, WALL_DIRECTION.HORIZONTAL, this) : undefined,
+                    v: i < this.height ? new Wall(i, j, WALL_DIRECTION.VERTICAL, this) : undefined
                 }
             }
         }
@@ -45,27 +45,58 @@ export class Game {
         if(this.mode !== MODE.EDIT)
             return;
 
-        this.grid = [...Array(gameData.height + 1)].map(() => [...Array(gameData.width + 1)]);
+        this.width = gameData.w;
+        this.height = gameData.h;
+        this.grid = [...Array(gameData.h + 1)].map(() => [...Array(gameData.w + 1)]);
         this.gridElement.empty();
         this.wallsElement.empty();
 
-        Object.entries(gameData.grid).forEach(([, row]) => {
+        Object.entries(gameData.g).forEach(([, row]) => {
             Object.entries(row).forEach(([, e]) => {
                 const x = e.x;
                 const y = e.y;
-                this.grid[x][y] = {
-                    c: e.c !== null ? new Cell(x, y, this, SOURCE_CELL[e.c.source]) : null,
-                    h: e.h !== null ? new Wall(x, y, WALL_DIRECTION.HORIZONTAL, this, WALL_STATE[e.h.state]) : null,
-                    v: e.v !== null ? new Wall(x, y, WALL_DIRECTION.VERTICAL, this, WALL_STATE[e.v.state]) : null
+
+                if(this.grid[x][y] === undefined)
+                    this.grid[x][y] = {};
+
+                this.grid[x][y].c = new Cell(x, y, this, SOURCE_CELL[e.v]);
+                if (this.grid[x][y].h === undefined)
+                    this.grid[x][y].h = new Wall(x, y, WALL_DIRECTION.HORIZONTAL, this, e.t ? WALL_STATE.SOLID : WALL_STATE.EMPTY);
+                if (this.grid[x][y].v === undefined)
+                    this.grid[x][y].v = new Wall(x, y, WALL_DIRECTION.VERTICAL, this, e.l ? WALL_STATE.SOLID : WALL_STATE.EMPTY);
+
+                if(e.b) {
+                    if(this.grid[x+1][y] === undefined)
+                        this.grid[x+1][y] = {};
+                    this.grid[x+1][y].h = new Wall(x+1, y, WALL_DIRECTION.HORIZONTAL, this, WALL_STATE.SOLID);
+                }
+                if(e.r) {
+                    if(this.grid[x][y+1] === undefined)
+                        this.grid[x][y+1] = {};
+                    this.grid[x][y+1].v = new Wall(x, y+1, WALL_DIRECTION.VERTICAL, this, WALL_STATE.SOLID);
                 }
             });
         });
 
+        for(let i = 0; i < gameData.w; i++) {
+            if(this.grid[gameData.h][i] === undefined)
+                this.grid[gameData.h][i] = {};
+            if(this.grid[gameData.h][i].h === undefined)
+                this.grid[gameData.h][i].h = new Wall(gameData.h, i, WALL_DIRECTION.HORIZONTAL, this, WALL_STATE.EMPTY);
+        }
+
+        for(let i = 0; i < gameData.h; i++) {
+            if(this.grid[i][gameData.w] === undefined)
+                this.grid[i][gameData.w] = {};
+            if(this.grid[i][gameData.w].v === undefined)
+                this.grid[i][gameData.w].v = new Wall(i, gameData.w, WALL_DIRECTION.VERTICAL, this, WALL_STATE.EMPTY);
+        }
+
         this.robots = new Map();
-        Object.entries(gameData.robots).forEach(([key, value]) => {
-            this.robots.set(key, new Robot(key, ROBOTS_COLORS[key], value.x, value.y));
-            if(value.x !== null && value.y !== null)
-                this.grid[value.x][value.y].c.getElement().append(this.robots.get(key).getElement());
+        gameData.r.forEach((r) => {
+            this.robots.set(r.c, new Robot(r.c, ROBOTS_COLORS[r.c], r.x, r.y));
+            if(r.x !== null && r.y !== null)
+                this.grid[r.x][r.y].c.getElement().append(this.robots.get(r.c).getElement());
         });
 
         this.leftPanel = new LeftPanel(this);
@@ -81,11 +112,13 @@ export class Game {
         for (let i = 0; i < this.grid.length; i++) {
             const rowElement = $('<div class="row"></div>');
             for (let j = 0; j < this.grid[i].length; j++) {
-                if(this.grid[i][j].c !== null)
+                if(this.grid[i][j] === undefined)
+                    continue;
+                if(this.grid[i][j].c !== undefined)
                     rowElement.append(this.grid[i][j].c.getElement());
-                if(this.grid[i][j].h !== null)
+                if(this.grid[i][j].h !== undefined)
                     this.wallsElement.append(this.grid[i][j].h.getElement());
-                if(this.grid[i][j].v !== null)
+                if(this.grid[i][j].v !== undefined)
                     this.wallsElement.append(this.grid[i][j].v.getElement());
             }
             this.gridElement.append(rowElement);
@@ -135,24 +168,31 @@ export class Game {
     }
 
     serialize() {
-        return LZString.compressToUTF16(
-            JSON.stringify({
-                width: this.width,
-                height: this.height,
-                grid: this.grid.map((row, i) =>
-                    row.map((e, j) => {
-                        return {
-                            x: i,
-                            y: j,
-                            c: e.c !== null ? e.c.serialize() : null,
-                            h: e.h !== null ? e.h.serialize() : null,
-                            v: e.v !== null ? e.v.serialize() : null
-                        }
-                    })
-                ),
-                robots: Object.fromEntries([...this.robots.entries()].map(([k, v]) => [k, v.serialize()]))
-            })
-        );
+        const serializedGrid = [];
+        for (let i = 0; i < this.height; i++) {
+            serializedGrid[i] = [];
+            for (let j = 0; j < this.width; j++) {
+                const cell = this.grid[i][j];
+                const rightCell = this.grid[i][j + 1];
+                const bottomCell = this.grid[i + 1][j];
+                serializedGrid[i][j] = {
+                    x: i,
+                    y: j,
+                    v: cell.c.serialize(),
+                    t: cell.h !== null && cell.h.state === WALL_STATE.SOLID,
+                    b: bottomCell.h !== null && bottomCell.h.state === WALL_STATE.SOLID,
+                    l: cell.v !== null && cell.v.state === WALL_STATE.SOLID,
+                    r: rightCell.v !== null && rightCell.v.state === WALL_STATE.SOLID,
+                }
+            }
+        }
+
+        return JSON.stringify({
+            w: this.width,
+            h: this.height,
+            g: serializedGrid,
+            r: [...this.robots.values()].map(value => value.serialize())
+        });
     }
 
     getMode() {

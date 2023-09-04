@@ -1,4 +1,4 @@
-import {MODE, SOURCE_CELL} from "./Constants.js";
+import {MODE, SOURCE_CELL, TEST_INPUT} from "./Constants.js";
 import {game} from "./Index.js";
 
 export class LeftPanel {
@@ -125,26 +125,30 @@ export class LeftPanel {
                 return;
             }
 
-            $.ajax({
-                url: '/saveMap',
-                type: 'POST',
-                data: {
-                    name: name,
-                    mapData: this.parentGrid.serialize()
-                },
-                success: function() {
-                    console.log('success');
-                }
-            });
+            console.log(this.parentGrid.serialize());
+            //
+            // $.ajax({
+            //     url: '/saveMap',
+            //     type: 'POST',
+            //     data: {
+            //         name: name,
+            //         mapData: this.parentGrid.serialize()
+            //     },
+            //     success: function() {
+            //         console.log('success');
+            //     }
+            // });
         });
 
         // Bind load button
         $('#edit-container #load-edit-container')
             .off('click')
             .click(() => {
-            $('#load-edit-items-container').toggleClass('hidden');
-            $('#load-edit-arrow').toggleClass('rotate');
-        });
+                // $('#load-edit-items-container').toggleClass('hidden');
+                // $('#load-edit-arrow').toggleClass('rotate');
+
+                game.createGame(JSON.parse(TEST_INPUT));
+            });
     }
 
     getContentElement() {

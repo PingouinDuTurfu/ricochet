@@ -44,8 +44,4 @@ export class Wall {
         else
             this.element.addClass('solid');
     }
-
-    serialize() {
-        return {direction: this.direction, state: Object.keys(WALL_STATE).find(key => WALL_STATE[key] === this.state)};
-    }
 }

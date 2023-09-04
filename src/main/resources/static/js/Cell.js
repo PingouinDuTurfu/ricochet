@@ -8,7 +8,6 @@ export class Cell {
         this.isSelected = false;
 
         this.element = $('<div class="cell" id="cell-' + x + '-' + y + '"></div>')
-            .css('background-image', 'url(' + source + ')')
             .off('click')
             .click(() => {
                 this.toggleState();
@@ -31,6 +30,8 @@ export class Cell {
                 this.parentGrid.moveRobot(robotId, this.x, this.y);
                 }
             );
+
+        this.setSource(source);
     }
 
     toggleState() {
@@ -57,6 +58,6 @@ export class Cell {
     }
 
     serialize() {
-        return {source: Object.keys(SOURCE_CELL).find(key => SOURCE_CELL[key] === this.source)};
+        return Object.keys(SOURCE_CELL).find(key => SOURCE_CELL[key] === this.source);
     }
 }
