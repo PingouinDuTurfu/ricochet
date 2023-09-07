@@ -1,5 +1,6 @@
 @import "var.css";
 @import "left-panel.css";
+@import "messaging.css";
 
 .main {
     display: flex;

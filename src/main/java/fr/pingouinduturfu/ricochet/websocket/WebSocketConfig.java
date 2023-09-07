@@ -1,5 +1,6 @@
 package fr.pingouinduturfu.ricochet.websocket;
 
+import fr.pingouinduturfu.ricochet.game.manager.GameManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     private final WebSocketSessionManager webSocketSessionManager;
     private final WebSocketInputCommandRouter webSocketInputCommandRouter;
     private final WebsocketMessageReader websocketMessageReader;
+    private final GameManager gameManager;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
@@ -26,6 +28,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Bean
     public WebSocketHandler webSocketHandler() {
-        return new WebSocketMessageHandler(webSocketSessionManager, webSocketInputCommandRouter, websocketMessageReader);
+        return new WebSocketMessageHandler(webSocketSessionManager, webSocketInputCommandRouter, websocketMessageReader, gameManager);
     }
 }

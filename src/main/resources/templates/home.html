@@ -5,53 +5,57 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
-    <script th:src="@{/libs/lz-string.min.js}"></script>
-
     <link rel="stylesheet" th:href="@{/css/index.css}">
     <link rel="icon" type="image/png" th:href="@{/asset/favicon.jpg}" />
     <script type="module" th:src="@{/js/Index.js}" defer></script>
 
-<!--    <script src="../static/libs/lz-string.min.js"></script>-->
 
 <!--    <link rel="stylesheet" href="../static/css/index.css">-->
 <!--    <link rel="icon" type="image/png" href="../static/asset/favicon.jpg" />-->
-<!--    <script src="../static/js/Index.js" defer></script>-->
+<!--    <script type="module" src="../static/js/Index.js" defer></script>-->
 </head>
 <body>
-    <div class="left-panel">
+    <div id="left-panel">
         <div id="switch-container">
             <div id="switch-title">Edit</div>
-            <div id="switch-mode">
+            <div id="switch-mode" class="button">
 <!--                <img id="switch-mode-img" src="../static/asset/switch.png" alt="edit">-->
                 <img id="switch-mode-img" th:src="@{/asset/switch.png}" alt="edit">
             </div>
         </div>
 
         <div id="left-panel-container">
-
-            <div id="edit-container">
-                <div id="edit-content">
-                    <div class="edit-row">
-                        <input type="text" name="title" id="edit-name" placeholder="Name">
-                        <div id="save-edit" class="edit-button save-edit">Save</div>
+            <div id="edit-container" class="flex-container">
+                <div id="edit-content" class="flex-content">
+                    <div class="row">
+                        <input id="edit-name" class="input flex-split" type="text" name="title" placeholder="Name">
+                        <div id="save-edit" class="button flex-split">Save</div>
                     </div>
-                    <div class="edit-row">
-                        <div id="load-edit-container" class="edit-button load-edit">
+                    <div class="row">
+                        <div id="load-edit-container" class="button load-edit">
                             <div id="load-edit-text">Load</div>
                             <img id="load-edit-arrow" th:src="@{/asset/bottom-arrow.svg}" alt="bottom-arrow">
-                            <div id="load-edit-items-container" class="hidden">
-                                <div class="load-edit-item">Test</div>
-                                <div class="load-edit-item">Test</div>
-                                <div class="load-edit-item">Test</div>
-                                <div class="load-edit-item">Test</div>
-                            </div>
+                            <div id="load-edit-items-container" class="hidden"></div>
                         </div>
                     </div>
                 </div>
 
-                <div id="swap-cell-container"></div>
+                <div id="swap-cell-container" class="flex-wrap-content"></div>
 
-                <div id="robot-pieces-container"></div>
+                <div id="robot-pieces-container" class="flex-wrap-content"></div>
+            </div>
+
+            <div id="play-container" class="flex-container">
+                <div id="play-content" class="flex-content">
+                    <div class="row">
+                        <div class="button" id="play-create-game">Create Game</div>
+                    </div>
+
+                    <div class="row">
+                        <input id="play-join-game-input" class="input flex-split" type="number" name="gameID" placeholder="Game ID">
+                        <div class="button flex-split" id="play-join-game">Join</div>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -64,5 +68,8 @@
         </div>
     </div>
 
+    <div id="messaging">
+        <div id="message-container"></div>
+    </div>
 </body>
 </html>

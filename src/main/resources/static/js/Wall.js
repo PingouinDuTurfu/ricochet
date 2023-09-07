@@ -4,7 +4,6 @@ export class Wall {
     constructor(x, y, direction, parentGrid, state = WALL_STATE.EMPTY) {
         this.x = x;
         this.y = y;
-        this.direction = direction;
         this.state = state;
         this.parentGrid = parentGrid;
 
@@ -13,7 +12,8 @@ export class Wall {
                 '<div />',
                 {
                     class: 'wall ' + directionString,
-                    id: 'wall-' + x + '-' + y + '-' + directionString
+                    id: 'wall-' + x + '-' + y + '-' + directionString,
+                    draggable: false
                 }
             )
             .on('click', () => {
@@ -32,8 +32,8 @@ export class Wall {
 
     getElement() {
         this.element.css({
-            'top': (this.x * (CONFIG.GRID_CELL_SIZE_PX + CONFIG.GRID_CELL_GAP_PX * 2) + CONFIG.GRID_CELL_GAP_PX) + 'px',
-            'left': (this.y * (CONFIG.GRID_CELL_SIZE_PX + CONFIG.GRID_CELL_GAP_PX * 2) + CONFIG.GRID_CELL_GAP_PX) + 'px',
+            'top': (this.y * (CONFIG.GRID_CELL_SIZE_PX + CONFIG.GRID_CELL_GAP_PX * 2) + CONFIG.GRID_CELL_GAP_PX) + 'px',
+            'left': (this.x * (CONFIG.GRID_CELL_SIZE_PX + CONFIG.GRID_CELL_GAP_PX * 2) + CONFIG.GRID_CELL_GAP_PX) + 'px',
         });
         return this.element;
     }

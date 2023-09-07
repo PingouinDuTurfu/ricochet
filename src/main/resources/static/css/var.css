@@ -26,6 +26,9 @@
     --grid-cell-gap-size: 0px;
 
     --robot-piece-size: 0px;
+
+    --messaging-container-count: 0;
+    --test: 0;
 }
 
 ::-webkit-scrollbar {
@@ -51,4 +54,14 @@ ul, li, a, a:hover, input, button {
 
 .hidden {
     display: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
 }

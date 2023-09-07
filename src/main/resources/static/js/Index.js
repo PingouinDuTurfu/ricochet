@@ -1,5 +1,7 @@
-import {CONFIG} from "./Constants.js";
+import {CONFIG, MODE} from "./Constants.js";
 import {Game} from "./Game.js";
+import {WebsocketSession} from "./Websocket.js";
+import {Messaging} from "./Messaging.js";
 
 function initCssVariables() {
     $(':root').css({
@@ -14,29 +16,6 @@ function initCssVariables() {
 
 initCssVariables();
 
-export const game = new Game(CONFIG.GRID_WIDTH, CONFIG.GRID_HEIGHT);
-
-// let socket = new WebSocket("ws://localhost:8088/ws");
-//
-// socket.onopen = function(e) {
-//     alert("[open] Connection established");
-//     alert("Sending to server");
-//     socket.send("{\"actionName\":\"PLAYER_CREATE_GAME\",\"data\":{\"username\":\"pingouin\"}}");
-// };
-//
-// socket.onmessage = function(event) {
-//     alert(`[message] Data received from server: ${event.data}`);
-// };
-//
-// socket.onclose = function(event) {
-//     if (event.wasClean) {
-//         alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
-//     } else {
-//         alert('[close] Connection died');
-//     }
-// };
-//
-// socket.onerror = function(error) {
-//     alert(`[error]`);
-// };
-
+export const game = new Game(MODE.EDIT);
+export const messaging = new Messaging();
+export const websocket = new WebsocketSession();

@@ -5,8 +5,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum WebSocketOutputCommandType {
 
-    PLAYER_SPAWN("player_spawn"),
-    PLAYER_MOVE("player_move");
+    MOVE("MOVE"),
+    UPDATE_GAME("UPDATE_GAME"),
+    ERROR("ERROR");
     private final String type;
 
     public static WebSocketOutputCommandType fromType(String type) {

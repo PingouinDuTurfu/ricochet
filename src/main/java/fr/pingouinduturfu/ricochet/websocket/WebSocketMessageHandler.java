@@ -1,5 +1,6 @@
 package fr.pingouinduturfu.ricochet.websocket;
 
+import fr.pingouinduturfu.ricochet.game.manager.GameManager;
 import fr.pingouinduturfu.ricochet.websocket.model.input.WebSocketInputCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ public class WebSocketMessageHandler extends TextWebSocketHandler {
     private final WebSocketSessionManager webSocketSessionManager;
     private final WebSocketInputCommandRouter webSocketInputCommandRouter;
     private final WebsocketMessageReader websocketMessageReader;
+    private final GameManager gameManager;
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message){
@@ -33,6 +35,8 @@ public class WebSocketMessageHandler extends TextWebSocketHandler {
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         super.afterConnectionClosed(session, status);
         webSocketSessionManager.removeSession(session);
+        if(gameManager.isInGame(session))
+            gameManager.leaveGame(session);
         log.info("Client disconnected {}", session.getId());
     }
 }

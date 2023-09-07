@@ -5,10 +5,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum WebSocketInputCommandType {
 
-    PLAYER_LOGIN("player_login"),
-    PLAYER_MOVE("player_move"),
-    PLAYER_CREATE_GAME("player_create_game"),
-    PLAYER_JOIN_GAME("player_join_game");
+    MOVE("MOVE"),
+    CREATE_GAME("CREATE_GAME"),
+    JOIN_GAME("JOIN_GAME");
 
     private final String type;
 

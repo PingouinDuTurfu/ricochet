@@ -13,9 +13,6 @@ import java.util.List;
 public class WebSocketInputCommandRouter {
     private final List<WebSocketInputCommandExecutor> webSocketInputCommandExecutors;
     public void execute(WebSocketInputCommand<?> webSocketInputCommand, WebSocketSession session) {
-
-        System.out.println(webSocketInputCommandExecutors);
-
         webSocketInputCommandExecutors.stream()
                 .filter(webSocketInputCommandExecutor -> webSocketInputCommandExecutor.find(webSocketInputCommand.getActionName()))
                 .findFirst()

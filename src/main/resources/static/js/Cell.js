@@ -1,4 +1,5 @@
-import {MODE, SOURCE_CELL} from "./Constants.js";
+import {MODE, ROBOTS_COLORS, SOURCE_CELL} from "./Constants.js";
+import {websocket} from "./Index.js";
 
 export class Cell {
     constructor(x, y, parentGrid, source = SOURCE_CELL.DEFAULT) {
@@ -7,7 +8,13 @@ export class Cell {
         this.parentGrid = parentGrid;
         this.isSelected = false;
 
-        this.element = $('<div class="cell" id="cell-' + x + '-' + y + '"></div>')
+        this.element = $(
+            '<div>',
+            {
+                id: 'cell-' + x + '-' + y,
+                class: 'cell',
+                draggable: false
+            })
             .off('click')
             .click(() => {
                 this.toggleState();
@@ -25,11 +32,25 @@ export class Cell {
                 if(this.element.children().length > 0)
                     return;
                 $(event.target).removeClass('dragover');
-                const robotId = event.originalEvent.dataTransfer.getData('text');
-                this.element.append($('#' + robotId));
-                this.parentGrid.moveRobot(robotId, this.x, this.y);
-                }
-            );
+
+                const elementId = event.originalEvent.dataTransfer.getData('text');
+                if(elementId === null
+                    || elementId === undefined
+                    || elementId.split('-').length !== 2
+                    || elementId.split('-')[0] !== 'robot'
+                    || ROBOTS_COLORS[elementId.split('-')[1].toLocaleUpperCase()] === undefined)
+                    return;
+
+                const element = $('#' + elementId);
+                if(!element.hasClass('robot-piece'))
+                    return;
+
+                if(this.parentGrid.getMode() === MODE.EDIT) {
+                    this.element.append(element);
+                    this.parentGrid.moveRobotFromHtmlId(elementId, this.x, this.y);
+                } else
+                    websocket.send('MOVE', {x: this.x, y: this.y, c: elementId.split('robot-')[1]});
+            });
 
         this.setSource(source);
     }

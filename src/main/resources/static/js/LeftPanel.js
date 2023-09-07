@@ -1,5 +1,5 @@
-import {MODE, SOURCE_CELL, TEST_INPUT} from "./Constants.js";
-import {game} from "./Index.js";
+import {MODE, SOURCE_CELL, WEBSOCKET_SENDER_ACTIONS} from "./Constants.js";
+import {game, messaging, websocket} from "./Index.js";
 
 export class LeftPanel {
     constructor(parentGrid) {
@@ -46,30 +46,6 @@ export class LeftPanel {
             cellsElementContainer.append(cellElement);
         });
 
-        // Load robots
-        const self = this;
-        const robotsElementContainer = this.contentElement.find('#edit-container #robot-pieces-container')
-            .empty()
-            .on('dragover', (event) => {
-                event.preventDefault();
-            })
-            .on('drop', function(event) {
-                event.preventDefault();
-                const $this = $(this);
-                const robot = $('#' +event.originalEvent.dataTransfer.getData('text'));
-
-                if($this.find(robot).length > 0)
-                    return;
-
-                self.parentGrid.moveRobot(robot.attr('id'), null, null);
-                $this.append(robot);
-            });
-
-        this.parentGrid.getRobots().forEach((robot) => {
-            if(robot.getX() === null || robot.getY() === null)
-                robotsElementContainer.append(robot.getElement());
-        });
-
         // Load maps
         const mapsElementContainer = this.contentElement.find('#edit-container #load-edit-items-container')
             .empty();
@@ -77,7 +53,6 @@ export class LeftPanel {
             url: '/getMapsNames',
             type: 'POST',
             success: function(data) {
-                console.log('a', data);
                 data.mapsNames.forEach((mapName) => {
                     const mapElement = $(
                             '<div />',
@@ -95,8 +70,7 @@ export class LeftPanel {
                                     name: mapName
                                 },
                                 success: function(data) {
-                                    console.log('load success');
-                                    game.createGame(JSON.parse(LZString.decompressFromUTF16(data.mapData)));
+                                    game.createEditMap(JSON.parse(data.mapData));
                                 }
                             });
                         });
@@ -106,13 +80,38 @@ export class LeftPanel {
         });
     }
 
+    loadRobots() {
+        const self = this;
+        const robotsElementContainer = this.contentElement.find('#edit-container #robot-pieces-container')
+            .empty()
+            .on('dragover', (event) => {
+                event.preventDefault();
+            })
+            .on('drop', function(event) {
+                event.preventDefault();
+                const $this = $(this);
+                const robot = $('#' +event.originalEvent.dataTransfer.getData('text'));
+
+                if($this.find(robot).length > 0)
+                    return;
+
+                self.parentGrid.moveRobotFromHtmlId(robot.attr('id'), null, null);
+                $this.append(robot);
+            });
+
+        self.parentGrid.getRobots().forEach((robot) => {
+            if(robot.getX() === null || robot.getY() === null)
+                robotsElementContainer.append(robot.getElement());
+        });
+    }
+
     #attachListeners() {
         // Bind switch mode button
         $('#switch-mode')
             .off('click')
             .click(() => {
             $("#switch-title").text(game.getMode() === MODE.PLAY ? 'Edit' : 'Play');
-            game.updateMode();
+            game.updateMode(game.getMode() === MODE.PLAY ? MODE.EDIT : MODE.PLAY);
         });
 
         // Bind save button
@@ -125,29 +124,45 @@ export class LeftPanel {
                 return;
             }
 
-            console.log(this.parentGrid.serialize());
-            //
-            // $.ajax({
-            //     url: '/saveMap',
-            //     type: 'POST',
-            //     data: {
-            //         name: name,
-            //         mapData: this.parentGrid.serialize()
-            //     },
-            //     success: function() {
-            //         console.log('success');
-            //     }
-            // });
+            $.ajax({
+                url: '/saveMap',
+                type: 'POST',
+                data: {
+                    name: name,
+                    mapData: this.parentGrid.serialize()
+                },
+                success: function() {
+                    messaging.displayMessage('Map saved');
+                }
+            });
         });
 
         // Bind load button
         $('#edit-container #load-edit-container')
             .off('click')
             .click(() => {
-                // $('#load-edit-items-container').toggleClass('hidden');
-                // $('#load-edit-arrow').toggleClass('rotate');
+                $('#load-edit-items-container').toggleClass('hidden');
+                $('#load-edit-arrow').toggleClass('rotate');
+            });
 
-                game.createGame(JSON.parse(TEST_INPUT));
+        $("#play-container #play-create-game")
+            .off('click')
+            .click(() => {
+                websocket.send(WEBSOCKET_SENDER_ACTIONS.CREATE_GAME, {
+                    mapName: "default",
+                    username: "pingouin"
+                });
+                game.updateMode(MODE.PLAY)
+            });
+
+        $("#play-container #play-join-game")
+            .off('click')
+            .click(() => {
+                websocket.send(WEBSOCKET_SENDER_ACTIONS.JOIN_GAME, {
+                    gameId: $("#play-container #play-join-game-input").val(),
+                    username: "yasuo"
+                });
+                game.updateMode(MODE.PLAY)
             });
     }
 
@@ -155,11 +170,3 @@ export class LeftPanel {
         return this.contentElement;
     }
 }
-//
-// const name = $('#edit-container #edit-name').val();
-// if(name === "" || name === undefined || name === null) {
-//     alert('Entrer un nom valide');
-//     return;
-// }
-//
-//

@@ -2,34 +2,34 @@ import {Cell} from "./Cell.js";
 import {Wall} from "./Wall.js";
 import {LeftPanel} from "./LeftPanel.js";
 import {Robot} from "./Robot.js";
-import {MODE, ROBOTS_COLORS, SOURCE_CELL, WALL_DIRECTION, WALL_STATE} from "./Constants.js";
+import {CONFIG, MODE, ROBOTS_COLORS, SOURCE_CELL, WALL_DIRECTION, WALL_STATE} from "./Constants.js";
 
 export class Game {
-    constructor(width, height) {
-        this.width = width;
-        this.height = height;
+    constructor(mode) {
 
-        this.mode = MODE.EDIT;
-        this.cellSelected = null;
-
-        this.grid = [...Array(height + 1)].map(() => [...Array(width + 1)]);
         this.robots = new Map();
 
         this.gridElement = $('#grid');
         this.wallsElement = $('#walls');
 
-        this.#buildGrid();
         this.leftPanel = new LeftPanel(this);
-        this.updateMode(false);
+        this.updateMode(mode);
     }
 
-    #buildGrid() {
+    #buildDefaultEditGrid() {
+        if(this.mode !== MODE.EDIT)
+            return;
+
+        this.width = CONFIG.GRID_WIDTH;
+        this.height = CONFIG.GRID_HEIGHT;
+        this.grid = [...Array(this.height + 1)].map(() => [...Array(this.width + 1)]);
+
         for (let i = 0; i < this.height + 1; i++) {
             for (let j = 0; j < this.width + 1; j++) {
                 this.grid[i][j] = {
-                    c: i < this.height && j < this.width ? new Cell(i, j, this) : undefined,
-                    h: j < this.width ? new Wall(i, j, WALL_DIRECTION.HORIZONTAL, this) : undefined,
-                    v: i < this.height ? new Wall(i, j, WALL_DIRECTION.VERTICAL, this) : undefined
+                    c: i < this.height && j < this.width ? new Cell(j, i, this) : undefined,
+                    h: j < this.width ? new Wall(j, i, WALL_DIRECTION.HORIZONTAL, this) : undefined,
+                    v: i < this.height ? new Wall(j, i, WALL_DIRECTION.VERTICAL, this) : undefined
                 }
             }
         }
@@ -38,16 +38,40 @@ export class Game {
             this.robots.set(key, new Robot(key, value));
         }
 
+        this.leftPanel.loadRobots();
+
         this.#draw();
     }
 
-    createGame(gameData) {
+    buildGameGrid(gameData) {
+        if(this.mode !== MODE.PLAY)
+            return;
+
+        this.#defaultGridCreation(gameData);
+
+        // this.leftPanel = new LeftPanel(this);
+        this.cellSelected = null;
+
+        this.#draw();
+    }
+
+    createEditMap(gameData) {
         if(this.mode !== MODE.EDIT)
             return;
 
+        this.leftPanel = new LeftPanel(this);
+        this.#defaultGridCreation(gameData);
+        this.leftPanel.loadRobots();
+
+        this.cellSelected = null;
+        this.#draw();
+    }
+
+    #defaultGridCreation(gameData) {
         this.width = gameData.w;
         this.height = gameData.h;
-        this.grid = [...Array(gameData.h + 1)].map(() => [...Array(gameData.w + 1)]);
+        this.grid = [...Array(this.height + 1)].map(() => Array(this.width + 1));
+
         this.gridElement.empty();
         this.wallsElement.empty();
 
@@ -56,24 +80,25 @@ export class Game {
                 const x = e.x;
                 const y = e.y;
 
-                if(this.grid[x][y] === undefined)
-                    this.grid[x][y] = {};
+                if(this.grid[y][x] === undefined)
+                    this.grid[y][x] = {};
 
-                this.grid[x][y].c = new Cell(x, y, this, SOURCE_CELL[e.v]);
-                if (this.grid[x][y].h === undefined)
-                    this.grid[x][y].h = new Wall(x, y, WALL_DIRECTION.HORIZONTAL, this, e.t ? WALL_STATE.SOLID : WALL_STATE.EMPTY);
-                if (this.grid[x][y].v === undefined)
-                    this.grid[x][y].v = new Wall(x, y, WALL_DIRECTION.VERTICAL, this, e.l ? WALL_STATE.SOLID : WALL_STATE.EMPTY);
+                this.grid[y][x].c = new Cell(x, y, this, SOURCE_CELL[e.v]);
+                if (this.grid[y][x].h === undefined)
+                    this.grid[y][x].h = new Wall(x, y, WALL_DIRECTION.HORIZONTAL, this, e.t ? WALL_STATE.SOLID : WALL_STATE.EMPTY);
+                if (this.grid[y][x].v === undefined)
+                    this.grid[y][x].v = new Wall(x, y, WALL_DIRECTION.VERTICAL, this, e.l ? WALL_STATE.SOLID : WALL_STATE.EMPTY);
 
                 if(e.b) {
-                    if(this.grid[x+1][y] === undefined)
-                        this.grid[x+1][y] = {};
-                    this.grid[x+1][y].h = new Wall(x+1, y, WALL_DIRECTION.HORIZONTAL, this, WALL_STATE.SOLID);
+                    if(this.grid[y+1][x] === undefined)
+                        this.grid[y+1][x] = {};
+                    this.grid[y+1][x].h = new Wall(x, y+1, WALL_DIRECTION.HORIZONTAL, this, WALL_STATE.SOLID);
+
                 }
                 if(e.r) {
-                    if(this.grid[x][y+1] === undefined)
-                        this.grid[x][y+1] = {};
-                    this.grid[x][y+1].v = new Wall(x, y+1, WALL_DIRECTION.VERTICAL, this, WALL_STATE.SOLID);
+                    if(this.grid[y][x+1] === undefined)
+                        this.grid[y][x+1] = {};
+                    this.grid[y][x+1].v = new Wall(x+1, y, WALL_DIRECTION.VERTICAL, this, WALL_STATE.SOLID);
                 }
             });
         });
@@ -82,27 +107,24 @@ export class Game {
             if(this.grid[gameData.h][i] === undefined)
                 this.grid[gameData.h][i] = {};
             if(this.grid[gameData.h][i].h === undefined)
-                this.grid[gameData.h][i].h = new Wall(gameData.h, i, WALL_DIRECTION.HORIZONTAL, this, WALL_STATE.EMPTY);
+                this.grid[gameData.h][i].h = new Wall(i, gameData.h, WALL_DIRECTION.HORIZONTAL, this, WALL_STATE.EMPTY);
         }
 
         for(let i = 0; i < gameData.h; i++) {
             if(this.grid[i][gameData.w] === undefined)
                 this.grid[i][gameData.w] = {};
             if(this.grid[i][gameData.w].v === undefined)
-                this.grid[i][gameData.w].v = new Wall(i, gameData.w, WALL_DIRECTION.VERTICAL, this, WALL_STATE.EMPTY);
+                this.grid[i][gameData.w].v = new Wall(gameData.w, i, WALL_DIRECTION.VERTICAL, this, WALL_STATE.EMPTY);
         }
 
+        this.leftPanel.getContentElement().find('#edit-container #robot-pieces-container').empty();
         this.robots = new Map();
         gameData.r.forEach((r) => {
-            this.robots.set(r.c, new Robot(r.c, ROBOTS_COLORS[r.c], r.x, r.y));
+            const robot = new Robot(r.c, ROBOTS_COLORS[r.c], r.x, r.y);
+            this.robots.set(r.c, robot);
             if(r.x !== null && r.y !== null)
-                this.grid[r.x][r.y].c.getElement().append(this.robots.get(r.c).getElement());
+                this.grid[r.y][r.x].c.getElement().append(robot.getElement());
         });
-
-        this.leftPanel = new LeftPanel(this);
-        this.cellSelected = null;
-
-        this.#draw();
     }
 
     #draw() {
@@ -125,9 +147,10 @@ export class Game {
         }
     }
 
-    updateMode(switchMode = true) {
-        if(switchMode)
-            this.mode = this.mode === MODE.PLAY ? MODE.EDIT : MODE.PLAY;
+    updateMode(mode) {
+        this.mode = mode;
+        this.cellSelected = null;
+        this.grid = [[]];
 
         switch (this.mode) {
             case MODE.PLAY:
@@ -139,6 +162,7 @@ export class Game {
                 this.gridElement.addClass('edit');
                 this.wallsElement.addClass('edit');
                 this.leftPanel.displayEdit();
+                this.#buildDefaultEditGrid();
                 break;
         }
     }
@@ -163,8 +187,21 @@ export class Game {
         return this.robots;
     }
 
-    moveRobot(robotId, x, y) {
-        Object.assign([...this.robots].find(([, v]) => v.getElement().attr('id') === robotId)[1], { x, y });
+    getRobot(robotId) {
+        return this.robots.get(robotId);
+    }
+
+    moveRobotFromHtmlId(robotId, x, y) {
+        const robot = [...this.robots].find(([, v]) => v.getElement().attr('id') === robotId)[1];
+        robot.setPos(x, y);
+    }
+
+    moveRobot(key, x, y) {
+        const robot = this.robots.get(key);
+        if(x !== robot.getX() || y !== robot.getY()) {
+            robot.setPos(x, y);
+            this.grid[y][x].c.getElement().append(robot.getElement());
+        }
     }
 
     serialize() {
@@ -176,13 +213,13 @@ export class Game {
                 const rightCell = this.grid[i][j + 1];
                 const bottomCell = this.grid[i + 1][j];
                 serializedGrid[i][j] = {
-                    x: i,
-                    y: j,
+                    x: j,
+                    y: i,
                     v: cell.c.serialize(),
-                    t: cell.h !== null && cell.h.state === WALL_STATE.SOLID,
-                    b: bottomCell.h !== null && bottomCell.h.state === WALL_STATE.SOLID,
-                    l: cell.v !== null && cell.v.state === WALL_STATE.SOLID,
-                    r: rightCell.v !== null && rightCell.v.state === WALL_STATE.SOLID,
+                    t: cell.h !== undefined && cell.h.state === WALL_STATE.SOLID,
+                    b: bottomCell.h !== undefined && bottomCell.h.state === WALL_STATE.SOLID,
+                    l: cell.v !== undefined && cell.v.state === WALL_STATE.SOLID,
+                    r: rightCell.v !== undefined && rightCell.v.state === WALL_STATE.SOLID,
                 }
             }
         }

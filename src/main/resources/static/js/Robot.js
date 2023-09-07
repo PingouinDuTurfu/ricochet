@@ -18,6 +18,11 @@ export class Robot {
             });
     }
 
+    setPos(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
     getX() {
         return this.x;
     }

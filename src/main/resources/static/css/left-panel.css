@@ -1,4 +1,4 @@
-.left-panel {
+#left-panel {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,16 +11,19 @@
 
 /* ======> SWITCH <====== */
 
-#switch-container {
+#left-panel #switch-container {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     margin: 20px 0;
     padding: 15px 30px;
     background-color: var(--dark-black);
     border-radius: 10px;
+    box-sizing: border-box;
+    width: 90%;
 }
 
-#switch-title {
+#left-panel #switch-title {
     display: flex;
     flex-direction: row;
     font-size: 40px;
@@ -28,54 +31,40 @@
     color: var(--white);
     align-items: center;
     justify-content: center;
-    width: 150px;
+    width: 100px;
 }
 
-#switch-mode {
-    background-color: var(--light-blue);
-    padding: 10px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 0 20px 0 var(--light-blue);
-    transition: box-shadow var(--delay-short-animation), background-color var(--delay-short-animation);
+#left-panel #switch-mode {
+    width: 30px;
+    height: 30px;
 }
 
-#switch-mode:hover {
-    background-color: var(--green);
-    cursor: pointer;
-    box-shadow: 0 0 20px 0 var(--green);
-}
-
-#switch-mode-img {
+#left-panel #switch-mode-img {
     height: 30px;
     width: 30px;
 }
-
-/* ======> CONTAINER <====== */
 
 #left-panel-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-
     overflow-y: auto;
     max-height: 100vh;
+    width: 100%;
 }
 
-/* ======> EDIT <====== */
-
-#edit-container {
+#left-panel .flex-container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 
-#edit-container > * {
+#left-panel .flex-container > * {
     margin-bottom: 20px;
 }
 
-#edit-content {
+#left-panel .flex-content {
     display: flex;
     flex-direction: column;
     background-color: var(--dark-black);
@@ -86,7 +75,17 @@
     box-sizing: border-box;
 }
 
-#edit-content .edit-row {
+#left-panel .flex-wrap-content {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: var(--dark-black);
+    border-radius: 10px;
+    justify-content: center;
+    padding: 20px 0;
+    width: 90%;
+}
+
+#left-panel .row {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -94,23 +93,7 @@
     margin: 10px 0;
 }
 
-#edit-name {
-    display: flex;
-    background-color: var(--dark-gray);
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 30px;
-    color: var(--white);
-    width: 60%;
-    margin: 0 2%;
-}
-
-#edit-name:hover {
-    cursor: text;
-    box-shadow: 0 0 20px 0 var(--dark-gray);
-}
-
-#edit-content .edit-button {
+#left-panel .button {
     background: var(--light-blue);
     padding: 10px;
     border-radius: 10px;
@@ -127,42 +110,60 @@
     cursor: pointer;
 }
 
-#edit-content .edit-button.save-edit:hover {
+#left-panel .button:hover {
     background: var(--green);
     box-shadow: 0 0 20px 0 var(--green);
 }
 
-#edit-content .edit-button.load-edit:has(.hidden):hover {
+#left-panel .input {
+    display: flex;
+    background-color: var(--dark-gray);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 30px;
+    color: var(--white);
+    margin: 0 2%;
+    width: inherit;
+    cursor: pointer;
+    transition: box-shadow var(--delay-short-animation);
+}
+
+#left-panel .input:hover {
+    cursor: text;
+    box-shadow: 0 0 20px 0 var(--dark-gray);
+}
+
+#left-panel .edit-button.load-edit:has(.hidden):hover {
     background: var(--green);
     box-shadow: 0 0 20px 0 var(--green);
 }
 
-#edit-content #save-edit {
+#left-panel #save-edit {
     width: 30%;
 }
 
-#edit-content #load-edit-container {
+#left-panel #load-edit-container {
     position: relative;
     flex-direction: row;
     justify-content: space-between;
 }
 
-#edit-content #load-edit-text {
+#left-panel #load-edit-text {
      width: 100%;
      text-align: center;
 }
 
-#edit-content #load-edit-arrow {
+#left-panel #load-edit-arrow {
     width: 30px;
     margin-right: 10px;
     transition: transform var(--delay-short-animation);
 }
 
-#edit-content #load-edit-arrow.rotate {
+#left-panel #load-edit-arrow.rotate {
     transform: rotate(180deg);
 }
 
-#edit-content #load-edit-items-container {
+#left-panel #load-edit-items-container:has(.load-edit-item) {
     position: absolute;
     top: 54px;
     left: 0;
@@ -176,12 +177,14 @@
     z-index: 5;
 }
 
-#edit-content .edit-button.load-edit:not(:has(.hidden)) {
+#left-panel .button.load-edit:not(:has(.hidden)):has(.load-edit-item) {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
+    background: var(--blue);
+    box-shadow: 0 0 20px 0 var(--blue);
 }
 
-#edit-content #load-edit-items-container .load-edit-item {
+#left-panel #load-edit-items-container .load-edit-item {
     text-align: center;
     background-color: #00000047;
     padding: 2px;
@@ -190,31 +193,24 @@
     cursor: pointer;
 }
 
-#edit-content #load-edit-items-container .load-edit-item:first-child {
+#left-panel #load-edit-items-container .load-edit-item:first-child {
     margin-top: 10px;
 }
 
-#edit-content #load-edit-items-container .load-edit-item:last-child {
+#left-panel #load-edit-items-container .load-edit-item:last-child {
     margin-bottom: 10px;
 }
 
-#edit-content #load-edit-items-container .load-edit-item:hover {
+#left-panel #load-edit-items-container .load-edit-item:hover {
     background-color: var(--green);
     box-shadow: 0 0 20px 0 var(--green);
 }
 
-#swap-cell-container {
-    display: flex;
-    flex-wrap: wrap;
-    width: 90%;
-    background-color: var(--dark-black);
-    border-radius: 10px;
-    justify-content: center;
-    padding: 20px 0;
+#left-panel #swap-cell-container {
     filter: grayscale(1);
 }
 
-#swap-cell-container .swap-cell {
+#left-panel .swap-cell {
     width: 50px;
     padding: 8px;
     background: var(--dark-gray);
@@ -223,13 +219,13 @@
     transition: box-shadow var(--delay-short-animation), background-color var(--delay-short-animation);
 }
 
-#swap-cell-container .swap-cell:hover {
+#left-panel .swap-cell:hover {
     cursor: pointer;
     background: var(--green);
     box-shadow: 0 0 20px 0 var(--green);
 }
 
-#robot-pieces-container {
+#left-panel #robot-pieces-container {
     display: flex;
     flex-wrap: wrap;
     width: 90%;
@@ -239,7 +235,7 @@
     padding: 20px 0;
 }
 
-#robot-pieces-container .robot-piece {
+#left-panel .robot-piece {
     width: 50px;
     padding: 8px;
     background: var(--dark-gray);
@@ -250,3 +246,7 @@
 }
 
 /* ======> PLAY <====== */
+
+#left-panel .flex-split {
+    flex: 1;
+}
