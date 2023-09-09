@@ -3,57 +3,59 @@
     <meta charset="UTF-8">
     <title>Ricochet Robots</title>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>-->
+    <script src="../static/lib/jquery.min.js"></script>
 
     <link rel="stylesheet" th:href="@{/css/index.css}">
     <link rel="icon" type="image/png" th:href="@{/asset/favicon.jpg}" />
     <script type="module" th:src="@{/js/Index.js}" defer></script>
 
-
 <!--    <link rel="stylesheet" href="../static/css/index.css">-->
 <!--    <link rel="icon" type="image/png" href="../static/asset/favicon.jpg" />-->
 <!--    <script type="module" src="../static/js/Index.js" defer></script>-->
+
 </head>
 <body>
     <div id="left-panel">
         <div id="switch-container">
             <div id="switch-title">Edit</div>
             <div id="switch-mode" class="button">
-<!--                <img id="switch-mode-img" src="../static/asset/switch.png" alt="edit">-->
-                <img id="switch-mode-img" th:src="@{/asset/switch.png}" alt="edit">
+                <img id="switch-mode-img" src="../static/asset/switch.png" alt="edit">
+<!--                <img id="switch-mode-img" th:src="@{/asset/switch.png}" alt="edit">-->
             </div>
         </div>
 
         <div id="left-panel-container">
             <div id="edit-container" class="flex-container">
-                <div id="edit-content" class="flex-content">
-                    <div class="row">
+                <div id="edit-content" class="flex-content-column">
+                    <div class="flex-content-row">
                         <input id="edit-name" class="input flex-split" type="text" name="title" placeholder="Name">
                         <div id="save-edit" class="button flex-split">Save</div>
                     </div>
-                    <div class="row">
-                        <div id="load-edit-container" class="button load-edit">
-                            <div id="load-edit-text">Load</div>
-                            <img id="load-edit-arrow" th:src="@{/asset/bottom-arrow.svg}" alt="bottom-arrow">
-                            <div id="load-edit-items-container" class="hidden"></div>
+                    <div class="flex-content-row">
+                        <div id="load-edit-container" class="button select">
+                            <div class="select-text">Load</div>
+<!--                            <img class="select-arrow" th:src="@{/asset/bottom-arrow.svg}" alt="bottom-arrow">-->
+                                <img id="load-edit-arrow" class="select-arrow" src="../static/asset/bottom-arrow.svg" alt="bottom-arrow">
+                            <div id="load-edit-select-items-container" class="select-items-container hidden"></div>
                         </div>
                     </div>
                 </div>
 
-                <div id="swap-cell-container" class="flex-wrap-content"></div>
+                <div id="swap-cell-container" class="flex-content-wrap"></div>
 
                 <div id="robot-pieces-container" class="flex-wrap-content"></div>
             </div>
 
             <div id="play-container" class="flex-container">
-                <div id="play-content" class="flex-content">
-                    <div class="row">
-                        <div class="button" id="play-create-game">Create Game</div>
+                <div id="play-content" class="flex-content-column">
+                    <div class="flex-content-row">
+                        <div id="play-create-game" class="button">Create Game</div>
                     </div>
 
-                    <div class="row">
+                    <div class="flex-content-row">
                         <input id="play-join-game-input" class="input flex-split" type="number" name="gameID" placeholder="Game ID">
-                        <div class="button flex-split" id="play-join-game">Join</div>
+                        <div id="play-join-game" class="button flex-split">Join</div>
                     </div>
                 </div>
             </div>
@@ -67,6 +69,26 @@
             <div id="walls"></div>
         </div>
     </div>
+
+<!--    <div id="home-page">-->
+<!--        <div id="home-play-container" class="flex-content-column flex-split">-->
+<!--            <div class="create-game-container flex-content-row border-radius">-->
+<!--                <div id="create-game-select" class="select button flex-split">-->
+<!--                    <div class="select-text">Choose map</div>-->
+<!--&lt;!&ndash;                    <img class="select-arrow" th:src="@{/asset/bottom-arrow.svg}" alt="bottom-arrow">&ndash;&gt;-->
+<!--                    <img class="select-arrow" src="../static/asset/bottom-arrow.svg" alt="bottom-arrow">-->
+<!--                    <div class="select-items-container hidden"></div>-->
+<!--                </div>-->
+<!--                <div id="create-game-button" class="button flex-split">Create game</div>-->
+<!--            </div>-->
+<!--            <div class="join-game-container">-->
+<!--                <div id="join-game-input" class=""></div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div id="home-edit-container" class="flex-split">-->
+
+<!--        </div>-->
+<!--    </div>-->
 
     <div id="messaging">
         <div id="message-container"></div>

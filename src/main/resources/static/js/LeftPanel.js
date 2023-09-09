@@ -47,7 +47,7 @@ export class LeftPanel {
         });
 
         // Load maps
-        const mapsElementContainer = this.contentElement.find('#edit-container #load-edit-items-container')
+        const mapsElementContainer = this.contentElement.find('#edit-container #load-edit-select-items-container')
             .empty();
         $.ajax({
             url: '/getMapsNames',
@@ -141,7 +141,7 @@ export class LeftPanel {
         $('#edit-container #load-edit-container')
             .off('click')
             .click(() => {
-                $('#load-edit-items-container').toggleClass('hidden');
+                $('#load-edit-select-items-container').toggleClass('hidden');
                 $('#load-edit-arrow').toggleClass('rotate');
             });
 

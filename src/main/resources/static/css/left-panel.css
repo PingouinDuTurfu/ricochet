@@ -9,8 +9,6 @@
     min-width: 25%;
 }
 
-/* ======> SWITCH <====== */
-
 #left-panel #switch-container {
     display: flex;
     flex-direction: row;
@@ -64,146 +62,8 @@
     margin-bottom: 20px;
 }
 
-#left-panel .flex-content {
-    display: flex;
-    flex-direction: column;
-    background-color: var(--dark-black);
-    border-radius: 10px;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    width: 90%;
-    box-sizing: border-box;
-}
-
-#left-panel .flex-wrap-content {
-    display: flex;
-    flex-wrap: wrap;
-    background-color: var(--dark-black);
-    border-radius: 10px;
-    justify-content: center;
-    padding: 20px 0;
-    width: 90%;
-}
-
-#left-panel .row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    margin: 10px 0;
-}
-
-#left-panel .button {
-    background: var(--light-blue);
-    padding: 10px;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    color: var(--white);
-    box-shadow: 0 0 20px 0 var(--light-blue);
-    width: inherit;
-    margin: 0 2%;
-    transition: box-shadow var(--delay-short-animation), background-color var(--delay-short-animation);
-    cursor: pointer;
-}
-
-#left-panel .button:hover {
-    background: var(--green);
-    box-shadow: 0 0 20px 0 var(--green);
-}
-
-#left-panel .input {
-    display: flex;
-    background-color: var(--dark-gray);
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 30px;
-    color: var(--white);
-    margin: 0 2%;
-    width: inherit;
-    cursor: pointer;
-    transition: box-shadow var(--delay-short-animation);
-}
-
-#left-panel .input:hover {
-    cursor: text;
-    box-shadow: 0 0 20px 0 var(--dark-gray);
-}
-
-#left-panel .edit-button.load-edit:has(.hidden):hover {
-    background: var(--green);
-    box-shadow: 0 0 20px 0 var(--green);
-}
-
 #left-panel #save-edit {
     width: 30%;
-}
-
-#left-panel #load-edit-container {
-    position: relative;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-#left-panel #load-edit-text {
-     width: 100%;
-     text-align: center;
-}
-
-#left-panel #load-edit-arrow {
-    width: 30px;
-    margin-right: 10px;
-    transition: transform var(--delay-short-animation);
-}
-
-#left-panel #load-edit-arrow.rotate {
-    transform: rotate(180deg);
-}
-
-#left-panel #load-edit-items-container:has(.load-edit-item) {
-    position: absolute;
-    top: 54px;
-    left: 0;
-    width: 100%;
-    background-color: var(--black);
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border: var(--light-blue) 3px solid;
-    box-sizing: border-box;
-    cursor: auto;
-    z-index: 5;
-}
-
-#left-panel .button.load-edit:not(:has(.hidden)):has(.load-edit-item) {
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-    background: var(--blue);
-    box-shadow: 0 0 20px 0 var(--blue);
-}
-
-#left-panel #load-edit-items-container .load-edit-item {
-    text-align: center;
-    background-color: #00000047;
-    padding: 2px;
-    margin: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#left-panel #load-edit-items-container .load-edit-item:first-child {
-    margin-top: 10px;
-}
-
-#left-panel #load-edit-items-container .load-edit-item:last-child {
-    margin-bottom: 10px;
-}
-
-#left-panel #load-edit-items-container .load-edit-item:hover {
-    background-color: var(--green);
-    box-shadow: 0 0 20px 0 var(--green);
 }
 
 #left-panel #swap-cell-container {
@@ -243,10 +103,4 @@
     border-radius: 10px;
     transition: box-shadow var(--delay-short-animation), background-color var(--delay-short-animation);
     cursor: grab;
-}
-
-/* ======> PLAY <====== */
-
-#left-panel .flex-split {
-    flex: 1;
 }
