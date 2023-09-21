@@ -4,94 +4,142 @@
     <title>Ricochet Robots</title>
 
 <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>-->
+<!--    <link rel="stylesheet" th:href="@{/css/index.css}">-->
+<!--    <link rel="icon" type="image/png" th:href="@{/asset/favicon.jpg}" />-->
+<!--    <script type="module" th:src="@{/js/Index.js}" defer></script>-->
+
     <script src="../static/lib/jquery.min.js"></script>
-
-    <link rel="stylesheet" th:href="@{/css/index.css}">
-    <link rel="icon" type="image/png" th:href="@{/asset/favicon.jpg}" />
-    <script type="module" th:src="@{/js/Index.js}" defer></script>
-
-<!--    <link rel="stylesheet" href="../static/css/index.css">-->
-<!--    <link rel="icon" type="image/png" href="../static/asset/favicon.jpg" />-->
-<!--    <script type="module" src="../static/js/Index.js" defer></script>-->
+    <link rel="stylesheet" href="../static/css/index.css">
+    <link rel="icon" type="image/png" href="../static/asset/favicon.jpg" />
+    <script type="module" src="../static/js/pages/HomePage.js" defer></script>
+    <script type="module" src="../static/js/Index.js" defer></script>
 
 </head>
 <body>
-    <div id="left-panel">
-        <div id="switch-container">
-            <div id="switch-title">Edit</div>
-            <div id="switch-mode" class="button">
-                <img id="switch-mode-img" src="../static/asset/switch.png" alt="edit">
-<!--                <img id="switch-mode-img" th:src="@{/asset/switch.png}" alt="edit">-->
-            </div>
-        </div>
+    <div id="pages-container">
 
-        <div id="left-panel-container">
-            <div id="edit-container" class="flex-container">
-                <div id="edit-content" class="flex-content-column">
-                    <div class="flex-content-row">
-                        <input id="edit-name" class="input flex-split" type="text" name="title" placeholder="Name">
-                        <div id="save-edit" class="button flex-split">Save</div>
+        <!-- _______________ BEGIN HOME PAGE _______________ -->
+
+        <div id="page-content-home" class="page-content">
+            <div id="home-page">
+                <div id="home-play-container" class="flex-content-column flex-split">
+                    <div id="home-play-title-container" class="flex-content-row">
+                        <div id="home-play-title">Play game</div>
                     </div>
-                    <div class="flex-content-row">
-                        <div id="load-edit-container" class="button select">
-                            <div class="select-text">Load</div>
-<!--                            <img class="select-arrow" th:src="@{/asset/bottom-arrow.svg}" alt="bottom-arrow">-->
-                                <img id="load-edit-arrow" class="select-arrow" src="../static/asset/bottom-arrow.svg" alt="bottom-arrow">
-                            <div id="load-edit-select-items-container" class="select-items-container hidden"></div>
+
+                    <div id="home-create-game-container" class="flex-content-row flex-split border-radius">
+                        <div id="home-create-game-inner-container" class="flex-content-row">
+                            <div id="home-create-game-select" class="select button flex-split">
+                                <div id="home-create-game-select-inner" class="flex-content-row">
+                                    <div id="home-create-game-select-text" class="select-text">Choose map</div>
+                                    <!--                    <img id="home-create-game-select-arrow" class="select-arrow" th:src="@{/asset/bottom-arrow.svg}" alt="bottom-arrow">-->
+                                    <img id="home-create-game-select-arrow" class="select-arrow" src="../static/asset/bottom-arrow.svg" alt="bottom-arrow">
+                                </div>
+                                <div id="home-create-game-items-container" class="select-items-container hidden"></div>
+                            </div>
+                            <div id="home-create-game-button" class="button flex-split">Create</div>
+                        </div>
+                    </div>
+
+                    <div id="home-join-game-container" class="flex-content-row flex-split border-radius">
+                        <div id="home-join-game-inner-container" class="flex-content-column">
+                            <div id="home-join-game-id-container" class="flex-content-row flex-split">
+                                <input id="home-join-game-input-cell-1" class="join-game-input-cell" type="number" placeholder="0">
+                                <input id="home-join-game-input-cell-2" class="join-game-input-cell" type="number" placeholder="0">
+                                <input id="home-join-game-input-cell-3" class="join-game-input-cell" type="number" placeholder="0">
+                                <input id="home-join-game-input-cell-4" class="join-game-input-cell" type="number" placeholder="0">
+                            </div>
+                            <div id="home-join-game-button-container" class="flex-content-row flex-split">
+                                <div id="home-join-game-button" class="button">Join</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div id="swap-cell-container" class="flex-content-wrap"></div>
-
-                <div id="robot-pieces-container" class="flex-wrap-content"></div>
-            </div>
-
-            <div id="play-container" class="flex-container">
-                <div id="play-content" class="flex-content-column">
-                    <div class="flex-content-row">
-                        <div id="play-create-game" class="button">Create Game</div>
+                <div id="home-edit-container" class="flex-content-column flex-split">
+                    <div id="home-edit-title-container" class="flex-content-row">
+                        <div id="home-edit-title">Edit game</div>
                     </div>
 
-                    <div class="flex-content-row">
-                        <input id="play-join-game-input" class="input flex-split" type="number" name="gameID" placeholder="Game ID">
-                        <div id="play-join-game" class="button flex-split">Join</div>
+                    <div id="home-create-empty-edit-container" class="flex-content-row flex-split border-radius">
+                        <div id="home-create-empty-edit-button" class="button">Create empty</div>
+                    </div>
+                    <div id="home-load-edit-container" class="flex-content-row flex-split border-radius">
+                        <div id="home-load-edit-inner-container" class="flex-content-row">
+                            <div id="home-load-edit-select" class="select button flex-split">
+                                <div id="home-load-edit-select-inner" class="flex-content-row">
+                                    <div id="home-load-edit-select-text" class="select-text">Select map</div>
+                                    <!--                    <img id="home-load-edit-select-arrow" class="select-arrow" th:src="@{/asset/bottom-arrow.svg}" alt="bottom-arrow">-->
+                                    <img id="home-load-edit-select-arrow" class="select-arrow" src="../static/asset/bottom-arrow.svg" alt="bottom-arrow">
+                                </div>
+                                <div id="home-load-edit-items-container" class="select-items-container hidden"></div>
+                            </div>
+                            <div id="home-load-edit-button" class="button flex-split">Load</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- _______________ END HOME PAGE _______________ -->
+
+        <!-- _______________ BEGIN EDIT PAGE _______________ -->
+
+        <div id="page-content-edit" class="page-content hidden">
+            <div id="edit-panel">
+                <div id="edit-panel-home-page-container" class="flex-content-row border-radius">
+                    <div id="edit-panel-home-page-text">HomePage</div>
+                    <div id="edit-panel-home-page-button" class="button">
+                        <img id="edit-panel-home-page-img" src="../static/asset/home.svg" alt="edit">
+                        <!--                <img id="switch-mode-img" th:src="@{/asset/switch.png}" alt="edit">-->
+                    </div>
+                </div>
+
+                <div id="edit-panel-container">
+                    <div id="edit-container" class="flex-content-column">
+                        <div id="edit-content" class="flex-content-column border-radius">
+                            <div id="edit-row" class="flex-content-row">
+                                <input id="edit-name" class="input flex-split" type="text" name="title" placeholder="Name">
+                                <div id="edit-save-button" class="button flex-split">Save</div>
+                            </div>
+                            <div id="edit-load-row" class="flex-content-row">
+                                <div id="edit-load-container" class="button select">
+                                    <div id="edit-load-select-text" class="select-text">Load</div>
+                                    <!--                            <img id="edit-load-arrow" class="select-arrow" th:src="@{/asset/bottom-arrow.svg}" alt="bottom-arrow">-->
+                                    <img id="edit-load-arrow" class="select-arrow" src="../static/asset/bottom-arrow.svg" alt="bottom-arrow">
+                                    <div id="edit-load-select-items-container" class="select-items-container hidden"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="swap-cell-container" class="flex-content-wrap border-radius"></div>
+
+                        <div id="robot-pieces-container" class="flex-content-wrap border-radius"></div>
                     </div>
                 </div>
             </div>
 
+            <div id="game-container">
+                <div id="game">
+                    <div id="grid" class="edit"></div>
+                    <div id="walls" class="edit"></div>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <div class="main">
-        <div id="game">
-            <div id="grid"></div>
-            <div id="walls"></div>
+        <!-- _______________ END EDIT PAGE _______________ -->
+
+        <!-- _______________ BEGIN PLAY PAGE _______________ -->
+
+        <div id="page-content-play" class="page-content hidden">
+
         </div>
+
+        <!-- _______________ END PLAY PAGE _______________ -->
     </div>
-
-<!--    <div id="home-page">-->
-<!--        <div id="home-play-container" class="flex-content-column flex-split">-->
-<!--            <div class="create-game-container flex-content-row border-radius">-->
-<!--                <div id="create-game-select" class="select button flex-split">-->
-<!--                    <div class="select-text">Choose map</div>-->
-<!--&lt;!&ndash;                    <img class="select-arrow" th:src="@{/asset/bottom-arrow.svg}" alt="bottom-arrow">&ndash;&gt;-->
-<!--                    <img class="select-arrow" src="../static/asset/bottom-arrow.svg" alt="bottom-arrow">-->
-<!--                    <div class="select-items-container hidden"></div>-->
-<!--                </div>-->
-<!--                <div id="create-game-button" class="button flex-split">Create game</div>-->
-<!--            </div>-->
-<!--            <div class="join-game-container">-->
-<!--                <div id="join-game-input" class=""></div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div id="home-edit-container" class="flex-split">-->
-
-<!--        </div>-->
-<!--    </div>-->
 
     <div id="messaging">
         <div id="message-container"></div>
     </div>
+
 </body>
 </html>

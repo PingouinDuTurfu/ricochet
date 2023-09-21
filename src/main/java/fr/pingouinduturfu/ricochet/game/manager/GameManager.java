@@ -36,7 +36,7 @@ public class GameManager {
 
     public Game joinGame(WebSocketSession session, String gameId, String username) throws GameManagerException {
         if (!games.containsKey(gameId))
-            throw new GameManagerException("Game not found");
+            throw new GameManagerException("EditGrid not found");
 
         Game game = games.get(gameId);
         game.addPlayer(session, username);
@@ -53,7 +53,7 @@ public class GameManager {
         String gameId = games.entrySet().stream()
                 .filter(entry -> entry.getValue().equals(game))
                 .findFirst()
-                .orElseThrow(() -> new GameManagerException("Game not found"))
+                .orElseThrow(() -> new GameManagerException("EditGrid not found"))
                 .getKey();
         game.removePlayer(session);
         if (game.getPlayers().isEmpty())
@@ -68,7 +68,7 @@ public class GameManager {
         return games.values().stream()
                 .filter(game -> game.getPlayers().containsKey(session))
                 .findFirst()
-                .orElseThrow(() -> new GameManagerException("Game not found"));
+                .orElseThrow(() -> new GameManagerException("EditGrid not found"));
     }
 
     public List<RobotMapper> move(WebSocketSession session, int x, int y, String color) throws GameManagerException {

@@ -12,7 +12,7 @@
 	<artifactId>ricochet</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ricochet</name>
-	<description>Richochet Robot Game</description>
+	<description>Richochet Robot EditGrid</description>
 	<properties>
 		<java.version>20</java.version>
 	</properties>

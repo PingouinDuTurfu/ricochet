@@ -1,4 +1,4 @@
-import {CONFIG, MODE, WALL_DIRECTION, WALL_STATE} from "./Constants.js";
+import {CONFIG, MODE, WALL_DIRECTION, WALL_STATE} from "../Constants.js";
 
 export class Wall {
     constructor(x, y, direction, parentGrid, state = WALL_STATE.EMPTY) {

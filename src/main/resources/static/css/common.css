@@ -1,7 +1,3 @@
-.hidden {
-    display: none;
-}
-
 .button {
     background: var(--light-blue);
     padding: 10px;
@@ -13,10 +9,10 @@
     font-size: 30px;
     color: var(--white);
     box-shadow: 0 0 20px 0 var(--light-blue);
-    width: inherit;
-    margin: 0 2%;
     transition: box-shadow var(--delay-short-animation), background-color var(--delay-short-animation);
     cursor: pointer;
+    box-sizing: border-box;
+    height: fit-content;
 }
 
 .button:hover {
@@ -31,7 +27,6 @@
     border-radius: 10px;
     font-size: 30px;
     color: var(--white);
-    margin: 0 2%;
     width: inherit;
     cursor: pointer;
     transition: box-shadow var(--delay-short-animation);
@@ -45,33 +40,26 @@
 .flex-content-column {
     display: flex;
     flex-direction: column;
-    background-color: var(--dark-black);
-    border-radius: 10px;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    width: 90%;
+    justify-content: center;
     box-sizing: border-box;
+    /* attention */
+    align-items: center;
+    /* attention */
 }
 
 .flex-content-row {
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: var(--dark-black);
     width: 100%;
-    margin: 10px 0;
-    /*padding: 10px 0;*/
     height: fit-content;
+    justify-content: center;
 }
 
 .flex-content-wrap {
     display: flex;
     flex-wrap: wrap;
-    background-color: var(--dark-black);
-    border-radius: 10px;
     justify-content: center;
-    padding: 20px 0;
-    width: 90%;
 }
 
 
@@ -100,7 +88,7 @@
 
 .select-arrow {
     width: 30px;
-    margin-right: 10px;
+    margin-left: 15px;
     transition: transform var(--delay-short-animation);
 }
 
@@ -152,4 +140,8 @@
 .select-item:hover {
     background-color: var(--green);
     box-shadow: 0 0 20px 0 var(--green);
+}
+
+.hidden {
+    display: none !important;
 }

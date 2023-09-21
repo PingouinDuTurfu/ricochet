@@ -1,5 +1,5 @@
-import {MODE, WEBSOCKET_RECEIVER_ACTIONS} from "./Constants.js";
-import {game, messaging} from "./Index.js";
+import { MODE, WEBSOCKET_RECEIVER_ACTIONS } from "./Constants.js";
+import { session } from "./Index.js";
 
 export class WebsocketSession {
     constructor() {
@@ -11,18 +11,18 @@ export class WebsocketSession {
     }
 
     #onOpen() {
-        messaging.displayMessage("Connected to server");
+        session.messaging.displayMessage("Connected to server");
     }
 
     #onClose(event) {
         if (event.wasClean)
-            messaging.displayMessage("Connection closed");
+            session.messaging.displayMessage("Connection closed");
         else
-            messaging.displayErrorMessage("Connection died");
+            session.messaging.displayErrorMessage("Connection died");
     }
 
     #onError(error) {
-        messaging.displayErrorMessage("Connection error");
+        session.messaging.displayErrorMessage("Connection error");
         console.error(`[error] ${error.message}`);
     }
 
@@ -33,16 +33,16 @@ export class WebsocketSession {
                 if(game.getMode() !== MODE.PLAY)
                     return;
                 game.buildGameGrid(message.data.map)
-                messaging.displayMessage("Game ID:" + message.data.gameId);
+                session.messaging.displayMessage("EditGrid ID:" + message.data.gameId);
                 break;
             case WEBSOCKET_RECEIVER_ACTIONS.MOVE:
-                if(game.getMode() !== MODE.PLAY)
-                    return;
+                // if(session.game)
+                //     return;
                 for (let element of message.data.robots)
-                    game.moveRobot(element.c, element.x, element.y);
+                    session.game.moveRobot(element.c, element.x, element.y);
                 break;
             case WEBSOCKET_RECEIVER_ACTIONS.ERROR:
-                messaging.displayErrorMessage(message.data.message);
+                session.messaging.displayErrorMessage(message.data.message);
                 break;
             default:
                 console.error("Unknown action: " + message.actionName);

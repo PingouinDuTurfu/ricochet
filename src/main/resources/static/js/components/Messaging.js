@@ -1,4 +1,4 @@
-import {MESSAGE_SLIDE_DURATION, MESSAGE_TIMEOUT} from "./Constants.js";
+import {MESSAGE_SLIDE_DURATION, MESSAGE_TIMEOUT} from "../Constants.js";
 
 export class Messaging {
     constructor() {

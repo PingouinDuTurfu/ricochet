@@ -1,5 +1,5 @@
-import {MODE, ROBOTS_COLORS, SOURCE_CELL} from "./Constants.js";
-import {websocket} from "./Index.js";
+import { MODE, ROBOTS_COLORS, SOURCE_CELL } from "../Constants.js";
+import { session } from "../Index.js";
 
 export class Cell {
     constructor(x, y, parentGrid, source = SOURCE_CELL.DEFAULT) {
@@ -49,7 +49,7 @@ export class Cell {
                     this.element.append(element);
                     this.parentGrid.moveRobotFromHtmlId(elementId, this.x, this.y);
                 } else
-                    websocket.send('MOVE', {x: this.x, y: this.y, c: elementId.split('robot-')[1]});
+                    session.websocket.send('MOVE', {x: this.x, y: this.y, c: elementId.split('robot-')[1]});
             });
 
         this.setSource(source);
